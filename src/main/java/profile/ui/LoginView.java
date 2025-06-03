@@ -9,15 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class LoginView {
+public class LoginView extends JPanel {
     private LoginViewModel viewModel;
 
     public LoginView() {
         viewModel = new LoginViewModel();
-
-        JFrame frame = new JFrame();
-        frame.setSize(1000, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,1));
@@ -35,8 +31,7 @@ public class LoginView {
             panel.add(userProfileButton);
         }
 
-        frame.add(panel);
-        frame.setVisible(true);
+        this.add(panel);
     }
 
     public static void main(String[] args) {
