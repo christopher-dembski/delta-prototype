@@ -1,0 +1,1 @@
+This module contains reusable UI components. For example, we can create our own header components and graphs to reduce duplicated code in the other modules and avoid code "cloning". Also decouples us from specific UI elements in the Java Swing library.

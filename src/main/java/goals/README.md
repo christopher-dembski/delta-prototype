@@ -1,0 +1,1 @@
+This module contains classes for user goals. FOr example, a page where the user can create a new goal and another page where they can view their existing goals.

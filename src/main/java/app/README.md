@@ -1,0 +1,1 @@
+This module contains the main shared classes. For example, it contains the method to run the app, the code to handle events, and the main UI component containing the navigation bar to let the users select different tabs.

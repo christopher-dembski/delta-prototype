@@ -7,11 +7,25 @@ import profile.ui.ProfileView;
 import javax.swing.*;
 import java.awt.*;
 
+// Views define the UI of the App
+// they should not contain any business logic, and are just about rendering the UI
 public class AppView implements EventListener {
+    // this component is the main UI window for the App
+    // containing the header bar to switch between tabs
+
+    // singleton design patter (one instance of app)
     private static AppView instance;
+    // the corresponding View Model would be responsible for handling front end logic not directly related to the UI
+    // for example, calling the API and fetching data, etc.
+    // we could also not have a view model layer and just put the data fetching logic in the views themselves
+    // this concept is used on Android development
+    // and is a common front-end pattern https://developer.android.com/topic/libraries/architecture/viewmodel
     private AppViewModel appViewModel;
+
+    // a frame is the overall window for the UI
     private final JFrame frame;
 
+    // components for the header allowing you to switch between tabs
     private JTabbedPane header;
     private Component loginView;
     private Component profileView;
@@ -52,16 +66,20 @@ public class AppView implements EventListener {
     // TO DO: define enum for message type wrapping JOptionPane.INFORMATION_MESSAGE
     // TO DO: decide whether to move out to separate class
     // Pro: separates flash message logic
-    // Con: requires exposing frame publicly
+    // Con: requires exposing frame publicly to the FlashMessage class
     public void flashMessage(String message, String title, int type) {
         JOptionPane.showMessageDialog(frame, message, title, type);
     }
 
-    // TO DO: should we be handling this logic in the viewModel?
+    // TO DO: should probably handle this logic in the view model instead
     private void handleLogin(int id) {
         // navigation is a bit different for the login screen vs. the rest of the application,
         // since we don't want to be able to click on tabs or show anything else until the user is logged in
 
+        // note: there is a known bug where if you hit the login button to change profile while
+        // already logged in, multiple of the same tabs are rendered
+        // not fixing since just a prototype
+        // basically, changing profile is currently treated the same as login
         App.instance().setCurrentUserId(id);
         // create a menu with tabs
         frame.remove(loginView);
@@ -79,6 +97,7 @@ public class AppView implements EventListener {
         frame.repaint();
     }
 
+    // TO DO: this method should probably be in the View Model
     @Override
     public void update(EventType eventType, Object payload) {
         if (eventType == EventType.LOGIN) handleLogin((int) payload);

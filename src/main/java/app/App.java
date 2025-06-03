@@ -1,5 +1,7 @@
 package app;
 
+// main class that runs the App and contains some global data
+// that is useful to access everywhere throughout the app like the currently logged in user
 public class App {
     private final EventManager eventManager = new EventManager();
     private static App instance;
