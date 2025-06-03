@@ -1,5 +1,6 @@
 package app;
 
+import goals.ui.GoalsView;
 import profile.ui.LoginView;
 import profile.ui.ProfileView;
 
@@ -11,14 +12,18 @@ public class AppView implements EventListener {
     private AppViewModel appViewModel;
     private final JFrame frame;
 
+    private JTabbedPane header;
     private Component loginView;
+    private Component profileView;
+    private Component goalsView;
+
 
     private AppView() {
         instance = this;
         appViewModel = new AppViewModel();
 
         // listen for login events
-        App.eventManager().subscribe(EventType.LOGIN, this);
+        App.instance().eventManager().subscribe(EventType.LOGIN, this);
 
         // the entire window the app runs in
         frame = new JFrame();
@@ -30,9 +35,10 @@ public class AppView implements EventListener {
         loginView = new LoginView();
         frame.add(loginView);
 
+        // we want to see the app...
         frame.setVisible(true);
         // testing flash message
-        AppView.getInstance().flashMessage("Message", "Title", JOptionPane.INFORMATION_MESSAGE);
+        AppView.getInstance().flashMessage("Testing a flash message.", "Flash", JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Design Pattern (Singleton): one instance of the app
@@ -53,10 +59,21 @@ public class AppView implements EventListener {
 
     // TO DO: should we be handling this logic in the viewModel?
     private void handleLogin() {
+        // navigation is a bit different for the login screen vs. the rest of the application,
+        // since we don't want to be able to click on tabs or show anything else until the user is logged in
+
+        // TO DO: get ID
+        App.instance().setCurrentUserId(1);
+        // create a menu with tabs
         frame.remove(loginView);
-        // TO DO: store user id and pass to profile view
-        // or, save the currently logged-in user in singleton instance of App class
-        frame.add(new ProfileView(123));
+        header = new JTabbedPane();
+        header.addTab("Change profile", loginView);
+        profileView = new ProfileView();
+        header.addTab("Settings", profileView);
+        goalsView = new GoalsView();
+        header.addTab("Goals", goalsView);
+        frame.add(header);
+        // redraw the updated UI
         frame.revalidate();
         frame.repaint();
     }
