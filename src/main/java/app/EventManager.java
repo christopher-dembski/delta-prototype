@@ -16,11 +16,11 @@ public class EventManager {
         listeners.get(eventType).add(listener);
     }
 
-    public void notify(EventType eventType) {
+    public void notify(EventType eventType, Object value) {
         for (EventListener listener : listeners.get(eventType)) {
             // TO DO: add type to events to allow
             // calling listener.update with different params
-            listener.update(eventType);
+            listener.update(eventType, value);
         }
     }
 }

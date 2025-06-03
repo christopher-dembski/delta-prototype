@@ -58,12 +58,11 @@ public class AppView implements EventListener {
     }
 
     // TO DO: should we be handling this logic in the viewModel?
-    private void handleLogin() {
+    private void handleLogin(int id) {
         // navigation is a bit different for the login screen vs. the rest of the application,
         // since we don't want to be able to click on tabs or show anything else until the user is logged in
 
-        // TO DO: get ID
-        App.instance().setCurrentUserId(1);
+        App.instance().setCurrentUserId(id);
         // create a menu with tabs
         frame.remove(loginView);
         header = new JTabbedPane();
@@ -72,6 +71,8 @@ public class AppView implements EventListener {
         header.addTab("Settings", profileView);
         goalsView = new GoalsView();
         header.addTab("Goals", goalsView);
+        // view the goals tab after login
+        header.setSelectedComponent(goalsView);
         frame.add(header);
         // redraw the updated UI
         frame.revalidate();
@@ -79,7 +80,7 @@ public class AppView implements EventListener {
     }
 
     @Override
-    public void update(EventType eventType) {
-        if (eventType == EventType.LOGIN) handleLogin();
+    public void update(EventType eventType, Object payload) {
+        if (eventType == EventType.LOGIN) handleLogin((int) payload);
     }
 }

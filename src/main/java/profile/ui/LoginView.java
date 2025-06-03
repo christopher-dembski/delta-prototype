@@ -30,7 +30,9 @@ public class LoginView extends JPanel {
         for (GetUsersEndpoint.User user : viewModel.getUsers()) {
             JButton userProfileButton = new JButton();
             userProfileButton.setText("Name: %s | Sex: %s".formatted(user.name(), user.sex()));
-            userProfileButton.addActionListener((arg) -> App.instance().eventManager().notify(EventType.LOGIN));
+            userProfileButton.addActionListener((arg) -> {
+                App.instance().eventManager().notify(EventType.LOGIN, user.id());
+            });
             panel.add(userProfileButton);
         }
 
