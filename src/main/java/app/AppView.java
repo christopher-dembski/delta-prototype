@@ -4,7 +4,7 @@ import profile.ui.LoginView;
 
 import javax.swing.*;
 
-public class AppView {
+public class AppView implements EventListener {
     private static AppView instance;
     private AppViewModel appViewModel;
     private final JFrame frame;
@@ -12,6 +12,9 @@ public class AppView {
     private AppView() {
         instance = this;
         appViewModel = new AppViewModel();
+
+        // listen for login events
+        App.eventManager().subscribe(EventType.LOGIN, this);
 
         // the entire window the app runs in
         frame = new JFrame();
@@ -28,6 +31,7 @@ public class AppView {
         AppView.getInstance().flashMessage("Message", "Title", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // Design Pattern (Singleton): one instance of the app
     public static AppView getInstance() {
         if (instance == null) {
             instance = new AppView();
@@ -41,5 +45,15 @@ public class AppView {
     // Con: requires exposing frame publicly
     public void flashMessage(String message, String title, int type) {
         JOptionPane.showMessageDialog(frame, message, title, type);
+    }
+
+    @Override
+    public void update(EventType eventType) {
+        switch (eventType) {
+            case LOGIN -> {
+                System.out.println("Logged in...");
+            }
+            default -> {}
+        }
     }
 }

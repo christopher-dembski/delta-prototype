@@ -1,5 +1,7 @@
 package profile.ui;
 
+import app.App;
+import app.EventType;
 import component_library.KFont;
 import component_library.KFontSize;
 import component_library.KHeading;
@@ -28,6 +30,7 @@ public class LoginView extends JPanel {
         for (GetUsersEndpoint.User user : viewModel.getUsers()) {
             JButton userProfileButton = new JButton();
             userProfileButton.setText("Name: %s | Sex: %s".formatted(user.name(), user.sex()));
+            userProfileButton.addActionListener((arg) -> App.eventManager().notify(EventType.LOGIN));
             panel.add(userProfileButton);
         }
 
